@@ -1,0 +1,12 @@
+person:
+  name: Double
+  age:  24
+  role:
+  - student
+  - son
+  backpack:
+    apple:  ${random.value}
+    pee:  ${random.int}
+    banana:  ${random.long}
+    strawberry:  ${random.int(10)}
+  email:  1009083442@qq.com

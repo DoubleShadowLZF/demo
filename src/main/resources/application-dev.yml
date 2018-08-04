@@ -1,0 +1,9 @@
+person:
+  name: Double
+  age:  24
+  role:
+    - student
+    - son
+  backpack:
+    dev: dev
+  email:  1009083442@qq.com
