@@ -7,3 +7,10 @@ person:
   backpack:
     dev: dev
   email:  1009083442@qq.com
+
+configuration:
+  foodProperties:
+    name: milk tea
+#    date: 2018/08/04 20:38
+    productor: Double
+#    price: 11￥

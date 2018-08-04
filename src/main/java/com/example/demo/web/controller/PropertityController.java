@@ -1,6 +1,6 @@
-package com.example.demo.controller;
+package com.example.demo.web.controller;
 
-import com.example.demo.domain.Person;
+import com.example.demo.properties.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

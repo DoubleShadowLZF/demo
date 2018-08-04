@@ -1,6 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.domain.Person;
+import com.example.demo.configuration.food.FoodProperties;
+import com.example.demo.properties.Person;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,19 @@ public class DemoApplicationTests {
     @Autowired
     Person person;
     @Test
-    public void test(){
+    public void testProperties(){
         System.out.println("person:"+person);
+    }
+
+//    private FoodFactory foodFactory ;
+
+    @Autowired
+    private FoodProperties foodProperties;
+    @Test
+    public void testConfiguration(){
+//        Object milkTea = foodFactory.getFood("MilkTea");
+//        System.out.println(milkTea);
+        System.out.println(foodProperties);
     }
 
 }

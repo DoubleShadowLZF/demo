@@ -1,24 +1,19 @@
-package com.example.demo.domain;
+package com.example.demo.properties;
 
-import lombok.Data;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author 李卓锋
  * @version 1.0
- * @Description
+ * @Description properties 配置文件测试
  * @since 2018/8/4
  */
 @Component
