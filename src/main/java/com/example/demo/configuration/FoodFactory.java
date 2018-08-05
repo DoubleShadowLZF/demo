@@ -1,31 +1,34 @@
 package com.example.demo.configuration;
 
 import com.example.demo.configuration.food.FoodProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 李卓锋
  * @version 1.0
  * @Description
- * @since 2018/8/4
+ * @since 2018/8/5
  */
 public class FoodFactory {
 
-    private final static FoodFactory foodFactory = new FoodFactory();
+    private static final FoodFactory foodFactory = new FoodFactory();
 
-    @Autowired
-    private static FoodProperties foodPropertiesOfFactory = null ;
+    private Map<String , FoodProperties> food = new HashMap<>();
 
-    public static FoodFactory getInstance(FoodProperties foodProperties) {
-        foodPropertiesOfFactory = foodProperties;
-         return foodFactory;
+    private FoodFactory(){}
+
+    public static FoodFactory getInstance() {
+        return foodFactory;
     }
 
-    public static Object getFood(String foodName){
-        if("MilkTea".equals(foodName)) {
-            return "MilkTea";
-        }else{
-            return "none food" ;
-        }
+    public Object getFood(String foodName){
+        return food.get(foodName) ;
+    }
+
+    public void putFood(String foodName , FoodProperties foodProperties) {
+        food.put(foodName , foodProperties);
     }
 }

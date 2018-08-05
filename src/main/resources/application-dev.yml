@@ -1,3 +1,4 @@
+# properties 配置
 person:
   name: Double
   age:  24
@@ -8,9 +9,16 @@ person:
     dev: dev
   email:  1009083442@qq.com
 
+#Configuration 配置
 configuration:
-  foodProperties:
-    name: milk tea
-#    date: 2018/08/04 20:38
+  food:
+    name: MilkTea
+#    date: 2013-02-02 17:35:44:197
+    date: 2018-08-04 20:38:02:223
     productor: Double
-#    price: 11￥
+    price: 11
+
+#log 配置
+#logging:
+#  config: classpath:logback-spring.xml
+

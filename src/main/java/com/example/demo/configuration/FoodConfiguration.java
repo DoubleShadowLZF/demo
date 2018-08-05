@@ -15,24 +15,27 @@ import org.springframework.context.annotation.Configuration;
  * @since 2018/8/4
  */
 @Configuration
-//@EnableConfigurationProperties(FoodProperties.class)
-//@ConditionalOnProperty(
-//        prefix = "configuration.foodProperties.productor",
-//        value={"Double"},
-//        matchIfMissing = true
-//)
+@EnableConfigurationProperties(FoodProperties.class)
+@ConditionalOnProperty(
+        prefix = "configuration.foodProperties.productor",
+        value={"Double"},
+        matchIfMissing = true
+)
 public class FoodConfiguration {
 
-//    @Autowired
-//    private FoodProperties foodProperties;
+    private FoodProperties foodProperties;
 
-//    public FoodConfiguration(FoodProperties foodProperties) {
-//        this.foodProperties = foodProperties;
-//    }
+    public FoodConfiguration(FoodProperties foodProperties) {
+        System.out.println(">>>foodProperties:\n"+foodProperties);
+        this.foodProperties = foodProperties;
+    }
 
-//    @Bean
-//    public Object getFoodFactory(){
-////        return FoodFactory.getInstance(foodProperties);
-//        return foodProperties;
-//    }
+    @Bean
+    public FoodFactory getFoodFactory(){
+        FoodFactory ff = FoodFactory.getInstance();
+        System.out.println(">>>factory input food of:\n"+foodProperties);
+        ff.putFood("MilkTea",foodProperties);
+        System.out.println(">>>factory output food of:\n"+ff.getFood("MilkTea"));
+        return ff;
+    }
 }
