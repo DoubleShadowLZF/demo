@@ -22,3 +22,9 @@ configuration:
 #logging:
 #  config: classpath:logback-spring.xml
 
+# 静态资源
+Spring:
+  mvc:
+    favicon: true
+  messages:
+    basename: i18n.login
