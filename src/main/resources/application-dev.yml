@@ -25,6 +25,6 @@ configuration:
 # 静态资源
 Spring:
   mvc:
-    favicon: true
-  messages:
+    favicon: true  #修改图标
+  messages:     #国际化
     basename: i18n.login

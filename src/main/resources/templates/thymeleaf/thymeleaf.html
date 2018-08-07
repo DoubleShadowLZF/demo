@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="id" th:id="${id}"th:text="${text}">Welcome to you~</div>
+    <hr>
+    <table border="1">
+        <thead><th>name</th></thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <div th:unless="${productor} eq 'Double'">好吃~</div>
+    <div th:if="${productor} eq 'Double'">productor不是Double就不显示~</div>
+</body>
+</html>
