@@ -39,11 +39,6 @@ public class ThymeleafController {
         return "thymeleaf/hello";
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "thymeleaf/login";
-    }
-
     @GetMapping("/thymeleaf")
     public String thymeleaf(Map<String , Object> map){
         map.put("id","Double");
