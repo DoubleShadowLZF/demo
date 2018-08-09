@@ -1,6 +1,7 @@
 package com.example.demo.autoConfiguration;
 
 import com.example.demo.autoConfiguration.interceptor.FoodInterceptor;
+import com.example.demo.crud.interceptor.LoginInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -160,7 +161,9 @@ public class AutoConfiguration implements WebMvcConfigurer {
         registry.addViewController("viewController").setViewName("/viewController");
         registry.addViewController("login").setViewName("/viewController");
         registry.addViewController("/").setViewName("index");
-        registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/index.html").setViewName("index");
+        //登陸后，直接轉發到該請求，避免刷新重複提交表單的問題。
+        registry.addViewController("/dashboard.html").setViewName("dashboard");
     }
 
     /**
@@ -171,6 +174,10 @@ public class AutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new FoodInterceptor());
+        /* 登陸的攔截請求應該排除登陸本身的請求，不然會一直被攔截，抛出異常；
+         * 還有驗證信息的請求，由於攔截器是使用session 中的userName 作爲驗證信息，所以不需要放行“/dashboard.html”請求。
+         */
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/","/index.html","/login");
     }
 
     /*
