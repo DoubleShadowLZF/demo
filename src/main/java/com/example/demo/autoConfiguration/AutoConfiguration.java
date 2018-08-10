@@ -177,7 +177,10 @@ public class AutoConfiguration implements WebMvcConfigurer {
         /* 登陸的攔截請求應該排除登陸本身的請求，不然會一直被攔截，抛出異常；
          * 還有驗證信息的請求，由於攔截器是使用session 中的userName 作爲驗證信息，所以不需要放行“/dashboard.html”請求。
          */
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/","/index.html","/login");
+
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/","/index.html","/login",
+                //1.*.* 版本默认不对静态资源进行拦截,2.*.* 会对静态资源进行拦截.
+                "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/fonts/*","/**/*.svg");
     }
 
     /*
