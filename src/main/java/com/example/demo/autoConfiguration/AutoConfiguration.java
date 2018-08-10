@@ -67,10 +67,11 @@ public class AutoConfiguration implements WebMvcConfigurer {
                 favorParameter(true).
                 parameterName("mediaType").
                 ignoreAcceptHeader(true).
-                defaultContentType(MediaType.APPLICATION_JSON).
                 mediaType("xml", MediaType.APPLICATION_XML).
-                mediaType("json", MediaType.APPLICATION_JSON);
-
+                mediaType("json", MediaType.APPLICATION_JSON).
+                //内容協商默認是text/html，如果json格式，將不能跳轉到template目錄下的錯誤頁面
+//                defaultContentType(MediaType.TEXT_HTML)
+                defaultContentType(MediaType.TEXT_HTML);
     }
 
     /**
@@ -180,7 +181,9 @@ public class AutoConfiguration implements WebMvcConfigurer {
 
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/","/index.html","/login",
                 //1.*.* 版本默认不对静态资源进行拦截,2.*.* 会对静态资源进行拦截.
-                "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/fonts/*","/**/*.svg");
+                "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/fonts/*","/**/*.svg",
+                //錯誤頁面測試
+                "/error");
     }
 
     /*
