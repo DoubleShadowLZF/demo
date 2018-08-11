@@ -2,8 +2,18 @@ package com.example.demo.autoConfiguration;
 
 import com.example.demo.autoConfiguration.interceptor.FoodInterceptor;
 import com.example.demo.crud.interceptor.LoginInterceptor;
+import com.example.demo.servlet.MyFilter;
+import com.example.demo.servlet.MyListener;
+import com.example.demo.servlet.MyServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryCustomizer;
+import org.springframework.boot.autoconfigure.web.servlet.TomcatServletWebServerFactoryCustomizer;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,6 +33,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 李卓锋
@@ -70,8 +81,8 @@ public class AutoConfiguration implements WebMvcConfigurer {
                 mediaType("xml", MediaType.APPLICATION_XML).
                 mediaType("json", MediaType.APPLICATION_JSON).
                 //内容協商默認是text/html，如果json格式，將不能跳轉到template目錄下的錯誤頁面
-//                defaultContentType(MediaType.TEXT_HTML)
                 defaultContentType(MediaType.TEXT_HTML);
+//                defaultContentType(MediaType.APPLICATION_JSON);
     }
 
     /**
@@ -174,16 +185,20 @@ public class AutoConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new FoodInterceptor());
+//        registry.addInterceptor(new FoodInterceptor());
         /* 登陸的攔截請求應該排除登陸本身的請求，不然會一直被攔截，抛出異常；
          * 還有驗證信息的請求，由於攔截器是使用session 中的userName 作爲驗證信息，所以不需要放行“/dashboard.html”請求。
          */
 
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/","/index.html","/login",
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/","/index.html","/login",
                 //1.*.* 版本默认不对静态资源进行拦截,2.*.* 会对静态资源进行拦截.
                 "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/fonts/*","/**/*.svg",
                 //錯誤頁面測試
-                "/error");
+                "/**error**","/**Error**",
+                //servlet请求
+                "/**servlet**","/**Servlet**"
+                );
     }
 
     /*
@@ -216,4 +231,58 @@ public class AutoConfiguration implements WebMvcConfigurer {
         return new MyLocaleResolver();
     }
 
+   /* @Bean
+    public ServletRegistrationBean servletRegistrationBean(){
+        ServletRegistrationBean registrationBean= new ServletRegistrationBean(new MyServlet(),"/myServlet");
+        registrationBean.setLoadOnStartup(1);
+        return registrationBean;
+    }*/
+
+   /**
+    * @author Double
+    * @Description 注册自定义 servlet( myServlet )
+    * @param
+    * @return org.springframework.boot.web.servlet.ServletRegistrationBean
+    * @Data 2018/8/11
+    */
+    @Bean
+    public ServletRegistrationBean myTomcatServlet(){
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new MyServlet());
+        registrationBean.setLoadOnStartup(1);
+        log.debug("servlet mapping:"+registrationBean.getUrlMappings());
+        registrationBean.addUrlMappings("/myServlet");
+        return registrationBean;
+    }
+    /**
+     * @author Double
+     * @Description 注册过滤器
+     * @param
+     * @return org.springframework.boot.web.servlet.FilterRegistrationBean
+     * @Data 2018/8/11
+     */
+    @Bean
+    public FilterRegistrationBean myFilter(){
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(new MyFilter());
+        registrationBean.addUrlPatterns("/myServlet");
+        return registrationBean;
+    }
+
+    /**
+     * @author Double
+     * @Description 注冊監聽器
+     * @param
+     * @return org.springframework.boot.web.servlet.ServletListenerRegistrationBean
+     * @Data 2018/8/11
+     */
+    @Bean
+    public ServletListenerRegistrationBean myListener(){
+        return  new ServletListenerRegistrationBean(new MyListener());
+    }
+
+    /*@Bean
+    public ConfigurableServletWebServerFactory webServerFactory(){
+        TomcatServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+        serverFactory.setPort(8085);
+        return serverFactory;
+    }*/
 }

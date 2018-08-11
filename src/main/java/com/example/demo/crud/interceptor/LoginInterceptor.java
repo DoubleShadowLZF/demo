@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String userName = (String)request.getSession().getAttribute("userName");
-        log.debug("LoginInterceptor..."+userName);
+        log.debug("LoginInterceptor..."+request.getRequestURI());
         if(!StringUtils.isEmpty(userName)){
             return true ;
         }else{
