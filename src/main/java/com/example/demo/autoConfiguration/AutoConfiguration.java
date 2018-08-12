@@ -197,7 +197,9 @@ public class AutoConfiguration implements WebMvcConfigurer {
                 //錯誤頁面測試
                 "/**error**","/**Error**",
                 //servlet请求
-                "/**servlet**","/**Servlet**"
+                "/**servlet**","/**Servlet**","/**Jsp**",
+                 //放行所有test頁面請求
+                 "/**text**" ,"/**Test**"
                 );
     }
 

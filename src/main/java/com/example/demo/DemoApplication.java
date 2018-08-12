@@ -15,5 +15,4 @@ public class DemoApplication {
         Map<String, ConfigurableServletWebServerFactory> beans = context.getBeansOfType(ConfigurableServletWebServerFactory.class);
         System.out.println(">>>ConfigurableServletWebServerFactory:"+beans);
     }
-
 }
