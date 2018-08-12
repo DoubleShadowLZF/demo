@@ -281,7 +281,7 @@ public class AutoConfiguration implements WebMvcConfigurer {
 
     /*@Bean
     public ConfigurableServletWebServerFactory webServerFactory(){
-        TomcatServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+        ConfigurableServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
         serverFactory.setPort(8085);
         return serverFactory;
     }*/
