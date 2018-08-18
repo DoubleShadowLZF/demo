@@ -3,6 +3,7 @@ package com.example.demo.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author 李卓锋
@@ -18,5 +19,11 @@ public class ServletController {
     public String success(Model model){
         model.addAttribute("param","userName");
         return "success";
+    }
+
+    @GetMapping("/testDevTools")
+    @ResponseBody
+    public String testDevTolles(){
+        return "DEVTOLLS";
     }
 }

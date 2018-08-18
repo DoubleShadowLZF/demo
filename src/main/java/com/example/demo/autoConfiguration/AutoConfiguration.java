@@ -1,22 +1,24 @@
 package com.example.demo.autoConfiguration;
 
-import com.example.demo.autoConfiguration.interceptor.FoodInterceptor;
 import com.example.demo.crud.interceptor.LoginInterceptor;
+import com.example.demo.redis.component.FastJsonRedisSerializer;
 import com.example.demo.servlet.MyFilter;
 import com.example.demo.servlet.MyListener;
 import com.example.demo.servlet.MyServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryCustomizer;
-import org.springframework.boot.autoconfigure.web.servlet.TomcatServletWebServerFactoryCustomizer;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -171,7 +173,6 @@ public class AutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("viewController").setViewName("/viewController");
-        registry.addViewController("login").setViewName("/viewController");
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/index.html").setViewName("index");
         //登陸后，直接轉發到該請求，避免刷新重複提交表單的問題。
@@ -199,7 +200,10 @@ public class AutoConfiguration implements WebMvcConfigurer {
                 //servlet请求
                 "/**servlet**","/**Servlet**","/**Jsp**",
                  //放行所有test頁面請求
-                 "/**text**" ,"/**Test**"
+                 "/**text**" ,"/**Test**",
+                //放行redis
+                "/testRedis","/testRedis/**"
+                        //,"/testRedis**"  //不支持 * 匹配 “/**”操作
                 );
     }
 
@@ -287,4 +291,40 @@ public class AutoConfiguration implements WebMvcConfigurer {
         serverFactory.setPort(8085);
         return serverFactory;
     }*/
+
+    /**
+     * @author Double
+     * @Description redis 模板
+     * @return org.springframework.data.redis.core.RedisTemplate<java.lang.String,java.lang.String>
+     * @Data 2018/8/19 3:35
+     */
+    @Bean
+    @ConditionalOnMissingBean(name="redisTemplate")
+    public RedisTemplate<Object,Object> redisTemplate(RedisConnectionFactory rf){
+        RedisTemplate<Object,Object> template = new RedisTemplate();
+        //使用fastjson序列化
+        FastJsonRedisSerializer fjrs = new FastJsonRedisSerializer(Object.class);
+        //value值的序列化采用fastJsonRedisSerializer
+        template.setValueSerializer(fjrs);
+        template.setHashValueSerializer(fjrs);
+        //key的序列化采用StringRedisSerializer
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+
+        template.setConnectionFactory(rf);
+        return template;
+    }
+
+    /**
+     * @author Double
+     * @Description  缓存管理器
+     * @return org.springframework.cache.CacheManager
+     * @Data 2018/8/19 3:35
+     */
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory rf){
+        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder
+                                                            .fromConnectionFactory(rf);
+        return builder.build();
+    }
 }

@@ -5,7 +5,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -21,7 +20,7 @@ import java.util.Arrays;
 @Aspect
 @Slf4j
 @Component
-public class TestAop {
+public class TestAop{
 
     /* 切点表达式入参列表不支持其他非常用类型,Map和HttpSession类型将不被支持
      * com.example.demo.crud.controller.LoginController.login(String userName , String password , Map<String , String> result , HttpSession session)
@@ -47,7 +46,7 @@ public class TestAop {
     }
 
     @AfterReturning(returning="ret",pointcut = "pointCut()")
-    public void doReturn(Object ret){
+    public void doReturn(Object ret)throws Throwable {
         log.debug("doReturn...:");
         log.debug("return : "+ret);
     }
@@ -62,16 +61,25 @@ public class TestAop {
         log.debug("doAfter...");
     }
 
+    /**
+     * @author Double
+     * @Description
+     * @param [ProceedingJoinPoint]
+     * @return java.lang.Object 应该把AOP拦截到的返回信息一起返回，不然原本的方法返回会是一void 方法。
+     * @Data 2018/8/14 16:04
+     */
     @Around("pointCut()")
-    public void doArround(ProceedingJoinPoint pjp){
+    public Object doArround(ProceedingJoinPoint pjp){
         log.debug("doBefore");
+        Object proceed = null ;
         try {
-            Object proceed = pjp.proceed();
+            proceed = pjp.proceed();
             log.debug("doAfter");
         }catch(Throwable e){
             log.error(""+e);
             log.debug("doThrowing");
         }
         log.debug("doReturn");
+        return proceed;
     }
 }
