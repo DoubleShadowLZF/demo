@@ -12,12 +12,13 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
@@ -35,7 +36,6 @@ import org.springframework.web.util.UrlPathHelper;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author 李卓锋
@@ -44,6 +44,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2018/8/5
  */
 @Configuration
+@EnableCaching
 public class AutoConfiguration implements WebMvcConfigurer {
 
     private Logger log = LoggerFactory.getLogger(getClass());
@@ -87,13 +88,6 @@ public class AutoConfiguration implements WebMvcConfigurer {
 //                defaultContentType(MediaType.APPLICATION_JSON);
     }
 
-    /**
-     * @author Double
-     * @Description
-     * @param
-     * @return void
-     * @Data 2018/8/8
-     */
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
 
@@ -190,7 +184,6 @@ public class AutoConfiguration implements WebMvcConfigurer {
         /* 登陸的攔截請求應該排除登陸本身的請求，不然會一直被攔截，抛出異常；
          * 還有驗證信息的請求，由於攔截器是使用session 中的userName 作爲驗證信息，所以不需要放行“/dashboard.html”請求。
          */
-
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/","/index.html","/login",
                 //1.*.* 版本默认不对静态资源进行拦截,2.*.* 会对静态资源进行拦截.
@@ -207,7 +200,7 @@ public class AutoConfiguration implements WebMvcConfigurer {
                 );
     }
 
-    /*
+    /**
      * ContentNegotiatingViewResolver 会将所用Bean容器中的 ViewResolver 对象提取出来,
      * 并执行它的功能。
      */
@@ -300,8 +293,8 @@ public class AutoConfiguration implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnMissingBean(name="redisTemplate")
-    public RedisTemplate<Object,Object> redisTemplate(RedisConnectionFactory rf){
-        RedisTemplate<Object,Object> template = new RedisTemplate();
+    public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory rf){
+        RedisTemplate<String,Object> template = new RedisTemplate();
         //使用fastjson序列化
         FastJsonRedisSerializer fjrs = new FastJsonRedisSerializer(Object.class);
         //value值的序列化采用fastJsonRedisSerializer
@@ -310,6 +303,8 @@ public class AutoConfiguration implements WebMvcConfigurer {
         //key的序列化采用StringRedisSerializer
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
+        //开启事务支持
+        template.setEnableTransactionSupport(true);
 
         template.setConnectionFactory(rf);
         return template;
@@ -326,5 +321,62 @@ public class AutoConfiguration implements WebMvcConfigurer {
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder
                                                             .fromConnectionFactory(rf);
         return builder.build();
+    }
+
+    /**
+     * @author Double
+     * @Description  对hash 类型的操作
+     * @return org.springframework.data.redis.core.HashOperations<java.lang.String,java.lang.String,java.lang.Object>
+     * @Data 2018/8/19 22:54
+     */
+    @Bean
+    public HashOperations<String,String,Object> hashOperations(RedisTemplate<String,Object> redisTemplate){
+        return redisTemplate.opsForHash();
+    }
+
+    /**
+     * @Description 对字符串类型的操作
+     * @return org.springframework.data.redis.core.ValueOperations<java.lang.String,java.lang.Object>
+     * @Data 2018/8/19 22:57
+     * @author Double
+     */
+    @Bean
+    public ValueOperations<String , Object> valueOperations(RedisTemplate<String,Object> redisTemplate){
+        return redisTemplate.opsForValue();
+    }
+
+    /**
+     * @Description 对链表类型的操作
+     * @return org.springframework.data.redis.core.ListOperations<java.lang.String,java.lang.Object>
+     * @Data 2018/8/19 23:01
+     * @author Double
+     */
+    @Bean
+    public ListOperations<String,Object> listOperations(RedisTemplate<String,Object> redisTemplate){
+        return redisTemplate.opsForList();
+    }
+
+    /**
+     * @Description 对无序集合类型的操作
+     * @param [redisTemplate]
+     * @return org.springframework.data.redis.core.SetOperations<java.lang.String,java.lang.Object>
+     * @Data 2018/8/19 23:03
+     * @author Double
+     */
+    @Bean
+    public SetOperations<String,Object> setOperations(RedisTemplate<String,Object> redisTemplate){
+        return redisTemplate.opsForSet();
+    }
+
+    /**
+     * @Description 对有序集合类型的操作
+     * @param [redisTemplate]
+     * @return org.springframework.data.redis.core.ZSetOperations<java.lang.String,java.lang.Object>
+     * @Data 2018/8/19 23:04
+     * @author Double
+     */
+    @Bean
+    public ZSetOperations<String,Object> zSetOperations(RedisTemplate<String,Object> redisTemplate){
+        return redisTemplate.opsForZSet();
     }
 }
