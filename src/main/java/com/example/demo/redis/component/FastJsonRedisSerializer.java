@@ -18,8 +18,9 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     @Override
     public byte[] serialize(T o) throws SerializationException {
-        if(o == null )
+        if(o == null ) {
             return new byte[0];
+        }
         return JSON.toJSONString(o, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
     }
 

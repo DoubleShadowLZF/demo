@@ -20,7 +20,6 @@ import java.nio.charset.StandardCharsets;
 public class MyTomcatWebServerCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
     @Override
     public void customize(TomcatServletWebServerFactory server) {
-        int port = server.getPort();
         server.setPort(9000);
         //直接在 TomcatServletWebServerFactory 实例设置参数
         server.setUriEncoding(StandardCharsets.UTF_8);

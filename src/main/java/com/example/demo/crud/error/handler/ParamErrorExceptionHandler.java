@@ -31,7 +31,7 @@ public class ParamErrorExceptionHandler {
      * @Data 2018/8/11
      */
     @ExceptionHandler(ParamErrorException.class)
-    public String HandleException(Exception e , HttpServletRequest request){
+    public String handleException(Exception e , HttpServletRequest request){
         Map<String , Object> map = new HashMap<>();
         log.debug("PasswordErrorException:"+e);
         map.put("msg","密码是否正确...");

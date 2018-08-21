@@ -1,4 +1,4 @@
-package com.example.demo.autoConfiguration;
+package com.example.demo.autoconfiguration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

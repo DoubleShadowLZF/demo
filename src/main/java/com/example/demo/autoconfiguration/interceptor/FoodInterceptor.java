@@ -1,4 +1,4 @@
-package com.example.demo.autoConfiguration.interceptor;
+package com.example.demo.autoconfiguration.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

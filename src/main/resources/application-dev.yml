@@ -19,8 +19,12 @@ configuration:
     price: 11
 
 #log 配置
-#logging:
+logging:
+  path: D:\Document\demo\springboot\log
 #  config: classpath:logback-spring.xml
+#  level:
+#    com.example.demo: debug
+
 
 # 静态资源
 spring:

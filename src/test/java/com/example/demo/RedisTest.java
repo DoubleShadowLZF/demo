@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.redis.component.User;
-import com.example.demo.redis.service.UserService;
+import com.example.demo.redis.service.BaseUserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ public class RedisTest {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    private UserService userService;
+    private BaseUserService userService;
     @Autowired
     private ValueOperations<String,Object> valueOperations;
     @Autowired
@@ -50,6 +50,7 @@ public class RedisTest {
     @Test
     public void setAndGet(){
         redisTemplate.opsForValue().set("test:set","testValue");
+System.out.println(">>>test:set:"+redisTemplate.opsForValue().get("test:set"));
         Assert.assertEquals("testValue",redisTemplate.opsForValue().get("test:set"));
     }
 
@@ -61,9 +62,10 @@ public class RedisTest {
      */
     @Test
     public void setAndGetAUser(){
-        User user = userService.queryUser(null , new User("Double",23));
-        System.out.println("user"+user);
+        User user = new User(5,"Double",23);
+System.out.println("user"+user);
         redisTemplate.opsForValue().set("test:setUser",user);
+System.out.println("test:setUser:"+((User)redisTemplate.opsForValue().get("test:setUser")).getName());
         Assert.assertEquals(user.getName(),
                 ((User)redisTemplate.opsForValue().get("test:setUser")).getName());
     }
@@ -99,6 +101,5 @@ public class RedisTest {
         expVal.clear();
         expVal.add("testZSet");
         Assert.assertArrayEquals(expVal.toArray(),range.toArray());
-
     }
 }

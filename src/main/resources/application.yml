@@ -7,3 +7,8 @@ server:
   servlet:
     context-path: /SpringBoot
 
+
+logging:
+  level:
+    com.example.demo: debug
+  config: classpath:logback-spring.xml

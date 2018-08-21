@@ -22,10 +22,10 @@
     <springProfile name="dev">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
-                <pattern>${PATTERN}</pattern>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             </encoder>
         </appender>
-        <logger name="com.example.demo" level="trace"/>  <!--指定路径的日志输出级别-->
+        <logger name="com.example.demo" level="debug"/>  <!--指定路径的日志输出级别-->
         <root level="info">
             <appender-ref ref="CONSOLE" />
         </root>
@@ -72,5 +72,4 @@
             <appender-ref ref="PROD_FILE" />
         </root>
     </springProfile>
-
 </configuration>

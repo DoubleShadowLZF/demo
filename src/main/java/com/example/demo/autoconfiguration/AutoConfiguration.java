@@ -1,10 +1,13 @@
-package com.example.demo.autoConfiguration;
+package com.example.demo.autoconfiguration;
 
 import com.example.demo.crud.interceptor.LoginInterceptor;
 import com.example.demo.redis.component.FastJsonRedisSerializer;
 import com.example.demo.servlet.MyFilter;
 import com.example.demo.servlet.MyListener;
 import com.example.demo.servlet.MyServlet;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -16,9 +19,12 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
@@ -34,6 +40,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.util.UrlPathHelper;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Locale;
 
@@ -180,7 +187,9 @@ public class AutoConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new FoodInterceptor());
+        //拦截器的简单使用
+        /*registry.addInterceptor(new FoodInterceptor());*/
+
         /* 登陸的攔截請求應該排除登陸本身的請求，不然會一直被攔截，抛出異常；
          * 還有驗證信息的請求，由於攔截器是使用session 中的userName 作爲驗證信息，所以不需要放行“/dashboard.html”請求。
          */
@@ -220,11 +229,11 @@ public class AutoConfiguration implements WebMvcConfigurer {
      * @author Double
      * @Description 测试 LocaleResolver
      *  自定义 LocaleResolver ,替换SpringBoot 原本的.
+     *  如果 @Bean 没有标注 localeResolver , 则该 LocaleResolver 无法注入。
      * @param
      * @return org.springframework.web.servlet.LocaleResolver 自定义的 LocaleResolver
      * @Data 2018/8/8
      */
-    //TODO 如果 @Bean 没有标注 localeResolver , 则该 LocaleResolver 无法注入。
     @Bean("localeResolver")
     public LocaleResolver  myLocaleResolver(){
         return new MyLocaleResolver();
@@ -285,98 +294,5 @@ public class AutoConfiguration implements WebMvcConfigurer {
         return serverFactory;
     }*/
 
-    /**
-     * @author Double
-     * @Description redis 模板
-     * @return org.springframework.data.redis.core.RedisTemplate<java.lang.String,java.lang.String>
-     * @Data 2018/8/19 3:35
-     */
-    @Bean
-    @ConditionalOnMissingBean(name="redisTemplate")
-    public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory rf){
-        RedisTemplate<String,Object> template = new RedisTemplate();
-        //使用fastjson序列化
-        FastJsonRedisSerializer fjrs = new FastJsonRedisSerializer(Object.class);
-        //value值的序列化采用fastJsonRedisSerializer
-        template.setValueSerializer(fjrs);
-        template.setHashValueSerializer(fjrs);
-        //key的序列化采用StringRedisSerializer
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
-        //开启事务支持
-        template.setEnableTransactionSupport(true);
 
-        template.setConnectionFactory(rf);
-        return template;
-    }
-
-    /**
-     * @author Double
-     * @Description  缓存管理器
-     * @return org.springframework.cache.CacheManager
-     * @Data 2018/8/19 3:35
-     */
-    @Bean
-    public CacheManager cacheManager(RedisConnectionFactory rf){
-        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder
-                                                            .fromConnectionFactory(rf);
-        return builder.build();
-    }
-
-    /**
-     * @author Double
-     * @Description  对hash 类型的操作
-     * @return org.springframework.data.redis.core.HashOperations<java.lang.String,java.lang.String,java.lang.Object>
-     * @Data 2018/8/19 22:54
-     */
-    @Bean
-    public HashOperations<String,String,Object> hashOperations(RedisTemplate<String,Object> redisTemplate){
-        return redisTemplate.opsForHash();
-    }
-
-    /**
-     * @Description 对字符串类型的操作
-     * @return org.springframework.data.redis.core.ValueOperations<java.lang.String,java.lang.Object>
-     * @Data 2018/8/19 22:57
-     * @author Double
-     */
-    @Bean
-    public ValueOperations<String , Object> valueOperations(RedisTemplate<String,Object> redisTemplate){
-        return redisTemplate.opsForValue();
-    }
-
-    /**
-     * @Description 对链表类型的操作
-     * @return org.springframework.data.redis.core.ListOperations<java.lang.String,java.lang.Object>
-     * @Data 2018/8/19 23:01
-     * @author Double
-     */
-    @Bean
-    public ListOperations<String,Object> listOperations(RedisTemplate<String,Object> redisTemplate){
-        return redisTemplate.opsForList();
-    }
-
-    /**
-     * @Description 对无序集合类型的操作
-     * @param [redisTemplate]
-     * @return org.springframework.data.redis.core.SetOperations<java.lang.String,java.lang.Object>
-     * @Data 2018/8/19 23:03
-     * @author Double
-     */
-    @Bean
-    public SetOperations<String,Object> setOperations(RedisTemplate<String,Object> redisTemplate){
-        return redisTemplate.opsForSet();
-    }
-
-    /**
-     * @Description 对有序集合类型的操作
-     * @param [redisTemplate]
-     * @return org.springframework.data.redis.core.ZSetOperations<java.lang.String,java.lang.Object>
-     * @Data 2018/8/19 23:04
-     * @author Double
-     */
-    @Bean
-    public ZSetOperations<String,Object> zSetOperations(RedisTemplate<String,Object> redisTemplate){
-        return redisTemplate.opsForZSet();
-    }
 }

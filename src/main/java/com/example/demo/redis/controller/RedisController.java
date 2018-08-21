@@ -2,7 +2,8 @@ package com.example.demo.redis.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.redis.component.User;
-import com.example.demo.redis.service.UserService;
+import com.example.demo.redis.service.BaseUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,27 +20,28 @@ import java.util.UUID;
  * @Description Redis Controller
  * @Data 2018/8/19 21:50
  */
+@Slf4j
 @RestController
 @RequestMapping("/testRedis")
 public class RedisController {
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    /*@Autowired
+    private StringRedisTemplate stringRedisTemplate;*/
 
     @Autowired
-    private UserService userService;
+    private BaseUserService userService;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    /*@Autowired
+    private RedisTemplate redisTemplate;*/
 
     @PostMapping("/user")
     public String insertUser(@RequestBody User user){
-        userService.insertUser(user);
-        return "SUCCESS";
+        return userService.insertUser(user)== 0 ? "缓存中已存在" : "添加成功.";
     }
 
-    @PutMapping("/user/{userId}")
-    public String updateUser(@RequestBody User user,@PathVariable("userId") Integer userId){
+    @PutMapping("/user/{id}")
+    public String updateUser(@RequestBody User user,@PathVariable("id") Integer userId){
+        user.setId(userId);
         userService.updateUser(userId,user);
         return "SUCCESS";
     }
@@ -51,7 +53,11 @@ public class RedisController {
 
     @GetMapping("/user/{userId}")
     public User queryUser(@PathVariable("userId") Integer userId){
-        return userService.queryUser(userId,null);
+        User u = new User();
+        u.setId(userId);
+        User user = userService.queryUser(u);
+log.debug(">>RedisController:"+user);
+        return user;
     }
 
     /**
@@ -72,17 +78,17 @@ public class RedisController {
 
     @PostMapping("/string")
     public String setStringRedis(@RequestBody JSONObject reqBody){
-        ValueOperations<String, String> svo = stringRedisTemplate.opsForValue();
+        /*ValueOperations<String, String> svo = stringRedisTemplate.opsForValue();
         Set<Map.Entry<String, Object>> entries = reqBody.entrySet();
         for(Map.Entry<String, Object> entry : entries){
             svo.set(entry.getKey(), (String) entry.getValue());
-        }
+        }*/
         return "SUCCESS";
     }
 
     @GetMapping("/string/{key}")
     public String getStringRedis(@PathVariable("key")String key){
-        return stringRedisTemplate.opsForValue().get(key);
+        return null; //stringRedisTemplate.opsForValue().get(key);
     }
 
     @GetMapping

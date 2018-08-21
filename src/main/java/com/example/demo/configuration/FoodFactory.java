@@ -14,14 +14,14 @@ import java.util.Map;
  */
 public class FoodFactory {
 
-    private static final FoodFactory foodFactory = new FoodFactory();
+    private static final FoodFactory FOOD_FACTORY = new FoodFactory();
 
     private Map<String , FoodProperties> food = new HashMap<>();
 
     private FoodFactory(){}
 
     public static FoodFactory getInstance() {
-        return foodFactory;
+        return FOOD_FACTORY;
     }
 
     public Object getFood(String foodName){
