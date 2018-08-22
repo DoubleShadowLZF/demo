@@ -1,18 +1,14 @@
-package com.example.demo.redis.controller;
+package org.example.demo.redis.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.redis.component.User;
-import com.example.demo.redis.service.BaseUserService;
+import org.example.demo.redis.component.User;
+import org.example.demo.redis.service.BaseUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 /**

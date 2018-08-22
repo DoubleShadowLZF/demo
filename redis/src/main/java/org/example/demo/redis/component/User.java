@@ -1,4 +1,4 @@
-package com.example.demo.redis.component;
+package org.example.demo.redis.component;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;

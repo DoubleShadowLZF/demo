@@ -1,13 +1,10 @@
-package com.example.demo.redis.service.impl;
+package org.example.demo.redis.service.impl;
 
-import com.example.demo.redis.component.User;
-import com.example.demo.redis.dao.UserDao;
-import com.example.demo.redis.service.BaseUserService;
+import org.example.demo.redis.component.User;
+import org.example.demo.redis.dao.UserDao;
+import org.example.demo.redis.service.BaseUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

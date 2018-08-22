@@ -1,7 +1,7 @@
-package com.example.demo.redis.configuration;
+package org.example.demo.redis.configuration;
 
 
-import com.example.demo.redis.component.FastJsonRedisSerializer;
+import org.example.demo.redis.component.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,15 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 import java.time.Duration;
 
+/**
+ * @Description redis 配置类
+ * @EnableRedisHttpSession :
+ *      设置session失效时间,使用Redis Session 之后,原Boot的server.session.timeout属性不再失效
+ *
+ * @Data 2018/8/22 9:13
+ * @author Double
+ */
 @Configuration
-//设置session失效时间,使用Redis Session 之后,原Boot的server.session.timeout属性不再失效
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400*30)
 public class RedisConfiguraion {
     @Bean
