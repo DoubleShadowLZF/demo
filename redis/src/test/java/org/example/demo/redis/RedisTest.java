@@ -1,5 +1,6 @@
 package org.example.demo.redis;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.demo.redis.component.User;
 import org.example.demo.redis.service.BaseUserService;
 import org.junit.Assert;
@@ -15,7 +16,9 @@ import org.springframework.data.redis.core.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.LinkedHashSet;
+import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * redis 测试类
@@ -102,5 +105,46 @@ System.out.println("test:setUser:"+((User)redisTemplate.opsForValue().get("test:
         expVal.clear();
         expVal.add("testZSet");
         Assert.assertArrayEquals(expVal.toArray(),range.toArray());
+    }
+
+    /**
+     * @Description 测试redis 集群
+     * @param []
+     * @return void
+     * @Data 2018/8/22 23:57
+     * @author Double
+     */
+    @Test
+    public void testCluster(){
+        String key = "redisClusterKey";
+        String value = "I am test value";
+
+        /* 数据插入测试,
+         *
+         */
+
+        for (int i = 0; i < 10000; i++) {
+            valueOperations.set(key+ i, UUID.randomUUID());
+        }
+
+        int lostCount = 0 ;
+        for (int i = 0; i < 10000; i++) {
+            Object o = valueOperations.get(key + i);
+            ++lostCount;
+        }
+System.out.println("lost count:" + lostCount);
+//        String strVal = (String) valueOperations.get(key);
+//System.out.printf("redis value after set:{%s}\n",strVal);
+
+        //删除数据
+//        redisTemplate.delete(key);
+//        strVal = (String) valueOperations.get(key);
+//System.out.printf("redis value after delete:{%s}",strVal);
+//
+//System.out.printf("This demo's template:{%s}\n",redisTemplate);
+//        ValueOperations valueOperations = redisTemplate.opsForValue();
+//        valueOperations.set("test:valueOperations", UUID.randomUUID());
+
+
     }
 }

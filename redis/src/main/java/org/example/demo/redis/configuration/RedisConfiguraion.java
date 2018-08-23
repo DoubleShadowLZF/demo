@@ -68,6 +68,7 @@ public class RedisConfiguraion {
         template.setEnableTransactionSupport(true);
 
         template.setConnectionFactory(rf);
+System.out.printf(">>My redisTemplate is:{%s}\n", template);
         return template;
     }
 
@@ -106,6 +107,7 @@ public class RedisConfiguraion {
      */
     @Bean
     public ValueOperations<String , Object> valueOperations(RedisTemplate<String,Object> redisTemplate){
+System.out.printf(">>this is ths valueTemplate's valueTemplate:{%s}\n",redisTemplate);
         return redisTemplate.opsForValue();
     }
 

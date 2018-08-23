@@ -1,6 +1,8 @@
 spring:
   thymeleaf:
     cache: false
+  profiles:
+    active: dev
 
 server:
 #  port: 8082
@@ -12,3 +14,4 @@ logging:
   level:
     com.example.demo: debug
   config: classpath:logback-spring.xml
+
