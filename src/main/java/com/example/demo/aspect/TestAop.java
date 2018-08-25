@@ -1,9 +1,10 @@
 package com.example.demo.aspect;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,9 +19,10 @@ import java.util.Arrays;
  * @since 2018/8/12
  */
 @Aspect
-@Slf4j
 @Component
 public class TestAop{
+
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     /* 切点表达式入参列表不支持其他非常用类型,Map和HttpSession类型将不被支持
      * com.example.demo.crud.controller.LoginController.login(String userName , String password , Map<String , String> result , HttpSession session)

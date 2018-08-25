@@ -1,6 +1,8 @@
 package com.example.demo.servlet;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -11,8 +13,10 @@ import java.io.IOException;
  * @Description 自定義過濾器
  * @since 2018/8/11
  */
-@Slf4j
 public class MyFilter implements Filter {
+
+    Logger log = LoggerFactory.getLogger(getClass());
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

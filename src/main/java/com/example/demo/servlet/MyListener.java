@@ -1,6 +1,8 @@
 package com.example.demo.servlet;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -11,8 +13,10 @@ import javax.servlet.ServletContextListener;
  * @Description 自定義監聽器
  * @since 2018/8/11
  */
-@Slf4j
 public class MyListener implements ServletContextListener {
+
+    Logger log = LoggerFactory.getLogger(getClass());
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         log.debug("MyListener initialized...");

@@ -1,11 +1,11 @@
-package org.example.demo.redis.controller;
+package redis.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import org.example.demo.redis.component.User;
-import org.example.demo.redis.service.BaseUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import redis.component.User;
+import redis.service.BaseUserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -31,49 +31,49 @@ public class RedisController {
     private RedisTemplate redisTemplate;*/
 
     @PostMapping("/user")
-    public String insertUser(@RequestBody User user){
-        return userService.insertUser(user)== 0 ? "缓存中已存在" : "添加成功.";
+    public String insertUser(@RequestBody User user) {
+        return userService.insertUser(user) == 0 ? "缓存中已存在" : "添加成功.";
     }
 
     @PutMapping("/user/{id}")
-    public String updateUser(@RequestBody User user,@PathVariable("id") Integer userId){
+    public String updateUser(@RequestBody User user, @PathVariable("id") Integer userId) {
         user.setId(userId);
-        userService.updateUser(userId,user);
+        userService.updateUser(userId, user);
         return "SUCCESS";
     }
 
     @GetMapping("/user")
-    public Map<Integer,User> queryList(){
+    public Map<Integer, User> queryList() {
         return userService.list();
     }
 
     @GetMapping("/user/{userId}")
-    public User queryUser(@PathVariable("userId") Integer userId){
+    public User queryUser(@PathVariable("userId") Integer userId) {
         User u = new User();
         u.setId(userId);
         User user = userService.queryUser(u);
-log.debug(">>RedisController:"+user);
+        log.debug(">>RedisController:" + user);
         return user;
     }
 
     /**
+     * @return java.lang.String
      * @author Double
      * @Description 共享session
-     * @return java.lang.String
      * @Data 2018/8/19 15:58
      */
     @GetMapping("/uuid")
-    public String uid(HttpSession session){
+    public String uid(HttpSession session) {
         UUID uuid = (UUID) session.getAttribute("uuid");
-        if(uuid == null){
-            uuid = java.util.UUID.randomUUID();
+        if (uuid == null) {
+            uuid = UUID.randomUUID();
         }
-        session.setAttribute("uuid",uuid);
+        session.setAttribute("uuid", uuid);
         return session.getId();
     }
 
     @PostMapping("/string")
-    public String setStringRedis(@RequestBody JSONObject reqBody){
+    public String setStringRedis(@RequestBody JSONObject reqBody) {
         /*ValueOperations<String, String> svo = stringRedisTemplate.opsForValue();
         Set<Map.Entry<String, Object>> entries = reqBody.entrySet();
         for(Map.Entry<String, Object> entry : entries){
@@ -83,12 +83,12 @@ log.debug(">>RedisController:"+user);
     }
 
     @GetMapping("/string/{key}")
-    public String getStringRedis(@PathVariable("key")String key){
+    public String getStringRedis(@PathVariable("key") String key) {
         return null; //stringRedisTemplate.opsForValue().get(key);
     }
 
     @GetMapping
-    public String testUrl(){
+    public String testUrl() {
         return "SUCCESS";
     }
 }

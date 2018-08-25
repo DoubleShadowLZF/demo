@@ -1,6 +1,8 @@
 package com.example.demo.servlet;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +16,8 @@ import java.io.IOException;
  * @Description 自定義 servlet
  * @since 2018/8/11
  */
-@Slf4j
 public class MyServlet extends HttpServlet {
+    Logger log = LoggerFactory.getLogger(getClass());
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log.debug("myServlet...");

@@ -2,6 +2,7 @@ package com.example.demo.properties;
 
 import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -17,8 +18,8 @@ import java.util.Map;
  * @since 2018/8/4
  */
 @Component
-@PropertySource(value = {"classpath:person.properties"})
-//@ImportResource(locations = "classpath:person.properties")
+//@PropertySource(value = {"classpath:properties/person.properties"})
+//@ImportResource(locations = "classpath:/properties/person.properties")
 @ConfigurationProperties(prefix="person")
 @ToString
 @Validated

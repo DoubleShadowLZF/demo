@@ -1,4 +1,4 @@
-package org.example.demo.redis.component;
+package redis.component;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -7,7 +7,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Getter @ToString
+@Getter
+@ToString
 public class StringRedisBean {
     private StringRedisTemplate stringRedisTemplate;
 

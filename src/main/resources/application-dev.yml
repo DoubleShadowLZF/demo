@@ -25,23 +25,58 @@ logging:
 #  level:
 #    com.example.demo: debug
 
+server:
+  #  port: 8082
+  servlet:
+    context-path: /SpringBoot
 
-# 静态资源
+  #  连接数据库
+  datasource:
+    username: root
+    password: root
+    #    url:  jdbc:mysql://192.168.1.102:3306/demo
+    url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf8
+    driver-class-name: org.gjt.mm.mysql.Driver
+    type: com.zaxxer.hikari.util.DriverDataSource
+    initialization-mode: embedded
+
 spring:
+  #  thymeleaf:
+  #    cache: false
+  profiles:
+    active: dev
+
+  # 静态资源
   mvc:
     favicon: true  #修改图标
     #測試jsp 頁面
-#    view:
-#      prefix: /WEB-INF/
-#      suffix: .jsp
+  #    view:
+  #      prefix: /WEB-INF/
+  #      suffix: .jsp
 
   # 在 WebMvcAutoConfiguration.java 中 mvcConversionService方設置了時間格式“DateFormat”
   #    default dd/MM/yyyy
   #    date-format:
   messages:     #国际化
     basename: i18n.login
-  thymeleaf:
-    cache: false
+
     #測試 jsp 頁面應該關閉 thymeleaf 模板引擎
     #    enabled: false
 
+  #redis 集群配置
+  redis:
+    database: 0
+    cluster:
+      nodes:
+      - 127.0.0.1:6380
+      - 127.0.0.1:6381
+      - 127.0.0.1:6382
+      - 127.0.0.1:6384
+
+  #  连接数据库
+  datasource:
+    username: root
+    password: root
+    #    url:  jdbc:mysql://192.168.1.102:3306/demo
+    url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf8
+    driver-class-name: org.gjt.mm.mysql.Driver

@@ -1,4 +1,4 @@
-package org.example.demo.redis.component;
+package redis.component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -18,7 +18,7 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     @Override
     public byte[] serialize(T o) throws SerializationException {
-        if(o == null ) {
+        if (o == null) {
             return new byte[0];
         }
         return JSON.toJSONString(o, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
@@ -26,10 +26,10 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     @Override
     public T deserialize(byte[] bytes) throws SerializationException {
-        if(bytes == null || bytes.length == 0){
+        if (bytes == null || bytes.length == 0) {
             return null;
         }
-        String str = new String(bytes , DEFAULT_CHARSET);
-        return (T)JSON.parseObject(str,clazz);
+        String str = new String(bytes, DEFAULT_CHARSET);
+        return (T) JSON.parseObject(str, clazz);
     }
 }
