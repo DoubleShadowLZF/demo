@@ -1,11 +1,11 @@
 package com.example.demo.crud.dao;
 
+import com.example.demo.crud.entities.Department;
+import org.springframework.stereotype.Repository;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.example.demo.crud.entities.Department;
-import org.springframework.stereotype.Repository;
 
 
 @Repository

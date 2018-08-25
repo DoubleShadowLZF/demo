@@ -3,8 +3,8 @@ person:
   name: Double
   age:  24
   role:
-    - student
-    - son
+  - student
+  - son
   backpack:
     dev: dev
   email:  1009083442@qq.com
@@ -13,7 +13,7 @@ person:
 configuration:
   food:
     name: MilkTea
-#    date: 2013-02-02 17:35:44:197
+    #    date: 2013-02-02 17:35:44:197
     date: 2018-08-04 20:38:02:223
     productor: Double
     price: 11
@@ -80,3 +80,5 @@ spring:
     #    url:  jdbc:mysql://192.168.1.102:3306/demo
     url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf8
     driver-class-name: org.gjt.mm.mysql.Driver
+#    type: com.zaxxer.hikari.util.DriverDataSource
+#    initialization-mode: embedded

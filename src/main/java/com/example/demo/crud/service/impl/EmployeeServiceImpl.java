@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author Double
  */
-@Service
+@Service("employeeService")
 public class EmployeeServiceImpl implements EmploeeService {
 
     @Autowired
