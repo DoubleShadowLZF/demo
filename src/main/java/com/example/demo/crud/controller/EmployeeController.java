@@ -1,7 +1,7 @@
 package com.example.demo.crud.controller;
 
 import com.example.demo.crud.dao.DepartmentDao;
-import com.example.demo.crud.dao.EmployeeDao;
+import com.example.demo.crud.dao.impl.EmployeeMemoryDao;
 import com.example.demo.crud.entities.Department;
 import com.example.demo.crud.entities.Employee;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class EmployeeController {
 
     @Autowired
-    EmployeeDao employeeDao;
+    EmployeeMemoryDao employeeDao;
 
     @Autowired
     DepartmentDao departmentDao;
@@ -54,13 +54,13 @@ public class EmployeeController {
          */
 //        return "/emps";
         log.debug("add employee:"+employee);
-        employeeDao.save(employee);
+        employeeDao.insert(employee);
         return "redirect:/emps";
     }
 
     @GetMapping("/emp/{empId}")
-    public String singleEmp(@PathVariable("empId") Integer empId , Model model){
-        Employee employee = employeeDao.get(empId);
+    public String singleEmp(@PathVariable("empId") Long empId , Model model){
+        Employee employee = employeeDao.query(empId);
         Collection<Department> depts = departmentDao.getDepartments();
         log.debug("edit employee:"+employee);
         model.addAttribute("emp",employee);
@@ -80,7 +80,7 @@ public class EmployeeController {
     @PutMapping("/emp")
     public String putEmp(Employee employee){
         log.debug("edit employee:"+employee);
-        employeeDao.save(employee);
+        employeeDao.insert(employee);
         return "redirect:/emps";
     }
 
@@ -92,7 +92,7 @@ public class EmployeeController {
      * @Data 2018/8/10
      */
     @DeleteMapping("/emp/{empId}")
-    public String deleteEmp(@PathVariable("empId") Integer empId ){
+    public String deleteEmp(@PathVariable("empId") Long empId ){
         employeeDao.delete(empId);
         return "redirect:/emps";
     }

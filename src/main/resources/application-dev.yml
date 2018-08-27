@@ -35,16 +35,15 @@ server:
     username: root
     password: root
     #    url:  jdbc:mysql://192.168.1.102:3306/demo
-    url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf8&useSSL=true
     driver-class-name: org.gjt.mm.mysql.Driver
     type: com.zaxxer.hikari.util.DriverDataSource
     initialization-mode: embedded
 
 spring:
-  #  thymeleaf:
-  #    cache: false
-  profiles:
-    active: dev
+  thymeleaf:
+    enabled: true
+    cache: false
 
   # 静态资源
   mvc:

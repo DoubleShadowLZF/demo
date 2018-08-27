@@ -1,6 +1,11 @@
 package com.example.demo.crud.entities;
 
-public class Department {
+import java.io.Serializable;
+
+/**
+ * @author Double
+ */
+public class Department implements Serializable {
 
 	private Integer id;
 	private String departmentName;

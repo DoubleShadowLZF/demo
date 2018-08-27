@@ -1,4 +1,4 @@
-package redis.resolver;
+package com.example.demo.redis.resolver;
 
 import org.springframework.cache.interceptor.AbstractCacheResolver;
 import org.springframework.cache.interceptor.CacheOperationInvocationContext;

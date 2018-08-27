@@ -1,4 +1,4 @@
-package redis.component;
+package com.example.demo.redis.component;
 
 import lombok.Getter;
 import lombok.ToString;

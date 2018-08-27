@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<workbook>
+	<worksheet name="Template">
+		<section startRow="0" endRow="2">
+		</section>
+		<loop startRow="3" endRow="3" items="emps" var="emp"
+			varType="com.example.demo.crud.entities.Employee">
+			<section startRow="3" endRow="3">
+				<mapping row="3" col="0">emp.id</mapping>
+				<mapping row="3" col="1">emp.lastName</mapping>
+				<mapping row="3" col="2">emp.email</mapping>
+				<mapping row="3" col="3">emp.gender</mapping>
+				<mapping row="3" col="4">emp.department.departmentName</mapping>
+				<!--<mapping row="3" col="5">dict.parentExcelId</mapping>
+				<mapping row="3" col="6">dict.remark</mapping>-->
+			</section>
+			<loopbreakcondition>
+				<rowcheck offset="0">
+					<cellcheck offset="1"></cellcheck>
+				</rowcheck>
+			</loopbreakcondition>
+		</loop>
+	</worksheet>
+</workbook>

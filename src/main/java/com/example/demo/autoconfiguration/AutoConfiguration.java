@@ -76,8 +76,8 @@ public class AutoConfiguration implements WebMvcConfigurer {
                 mediaType("xml", MediaType.APPLICATION_XML).
                 mediaType("json", MediaType.APPLICATION_JSON).
                 //内容協商默認是text/html，如果json格式，將不能跳轉到template目錄下的錯誤頁面
-                defaultContentType(MediaType.TEXT_HTML);
-//                defaultContentType(MediaType.APPLICATION_JSON);
+//                defaultContentType(MediaType.TEXT_HTML);
+                defaultContentType(MediaType.APPLICATION_JSON);
     }
 
     @Override
@@ -187,7 +187,7 @@ public class AutoConfiguration implements WebMvcConfigurer {
                 //servlet请求
                 "/**servlet**","/**Servlet**","/**Jsp**",
                  //放行所有test頁面請求
-                 "/**text**" ,"/**Test**",
+                 "/**text**" ,"/**Test**","/**Test**/**",
                 //放行redis
                 "/testRedis","/testRedis/**"
                         //,"/testRedis**"  //不支持 * 匹配 “/**”操作

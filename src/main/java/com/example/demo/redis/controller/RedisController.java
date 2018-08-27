@@ -1,11 +1,11 @@
-package redis.controller;
+package com.example.demo.redis.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.redis.component.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import redis.component.User;
-import redis.service.BaseUserService;
+import com.example.demo.redis.service.BaseUserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;

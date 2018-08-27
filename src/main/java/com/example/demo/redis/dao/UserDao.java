@@ -1,5 +1,6 @@
-package redis.dao;
+package com.example.demo.redis.dao;
 
+import com.example.demo.redis.component.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -7,7 +8,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import redis.component.User;
 
 import java.util.HashMap;
 import java.util.Map;

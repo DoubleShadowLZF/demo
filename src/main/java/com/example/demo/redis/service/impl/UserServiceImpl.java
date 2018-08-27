@@ -1,11 +1,11 @@
-package redis.service.impl;
+package com.example.demo.redis.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.component.User;
-import redis.dao.UserDao;
-import redis.service.BaseUserService;
+import com.example.demo.redis.component.User;
+import com.example.demo.redis.dao.UserDao;
+import com.example.demo.redis.service.BaseUserService;
 
 import java.util.Map;
 
@@ -38,7 +38,7 @@ public class UserServiceImpl extends BaseUserService {
 
     /**
      * @param [userId, user]
-     * @return com.example.demo.redis.component.User
+     * @return com.example.demo.User
      * @Description 查询场景应用
      * 在 redis缓存中查询是否存在需要查找的数据,
      * 如果没有,则查询数据库,将数据缓存到redis中,并返回数据;

@@ -26,6 +26,7 @@
             </encoder>
         </appender>
         <logger name="com.example.demo" level="debug"/>  <!--指定路径的日志输出级别-->
+        <logger name="org.springframework.jdbc" level="trace"/>  <!--指定路径的日志输出级别-->
         <root level="info">
             <appender-ref ref="CONSOLE" />
         </root>

@@ -1,6 +1,6 @@
-package redis.service;
+package com.example.demo.redis.service;
 
-import redis.component.User;
+import com.example.demo.redis.component.User;
 
 import java.util.Map;
 

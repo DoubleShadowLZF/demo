@@ -1,4 +1,4 @@
-package redis.component;
+package com.example.demo.redis.component;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
