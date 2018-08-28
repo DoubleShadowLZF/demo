@@ -189,8 +189,9 @@ public class AutoConfiguration implements WebMvcConfigurer {
                  //放行所有test頁面請求
                  "/**text**" ,"/**Test**","/**Test**/**",
                 //放行redis
-                "/testRedis","/testRedis/**"
+                "/testRedis","/testRedis/**",
                         //,"/testRedis**"  //不支持 * 匹配 “/**”操作
+                "/druid/*","/druid"
                 );
     }
 
@@ -224,12 +225,12 @@ public class AutoConfiguration implements WebMvcConfigurer {
         return new MyLocaleResolver();
     }
 
-   /* @Bean
+   @Bean
     public ServletRegistrationBean servletRegistrationBean(){
         ServletRegistrationBean registrationBean= new ServletRegistrationBean(new MyServlet(),"/myServlet");
         registrationBean.setLoadOnStartup(1);
         return registrationBean;
-    }*/
+    }
 
    /**
     * @author Double

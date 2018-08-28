@@ -79,5 +79,5 @@ spring:
     #    url:  jdbc:mysql://192.168.1.102:3306/demo
     url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf8
     driver-class-name: org.gjt.mm.mysql.Driver
-#    type: com.zaxxer.hikari.util.DriverDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
 #    initialization-mode: embedded
