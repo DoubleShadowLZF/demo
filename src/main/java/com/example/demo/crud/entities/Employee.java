@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.UUID;
 
 /**
  * @author Double
@@ -26,15 +29,17 @@ public class Employee implements Serializable {
 
     {
         //Excel 填充数据时 ,对象必须初始化
-        department = new Department();
-        /*lastName = UUID.randomUUID().toString();
+//        department = new Department();
+        lastName = UUID.randomUUID().toString();
         email = "1009083442@qq.com";
         gender = FEMALE;
         department = new Department(0,"Docker");
         Calendar calendar = Calendar.getInstance();
         calendar.set(1995,7,1);
-        birth = new Timestamp(calendar.getTimeInMillis());
-        entryTime = new Timestamp(System.currentTimeMillis());*/
+        birth = new Date(new java.util.Date().getTime());
+        entryTime = new Date(new java.util.Date().getTime());
+//        birth = new Timestamp(calendar.getTimeInMillis());
+//        entryTime = new Timestamp(System.currentTimeMillis());
     }
 
     public Employee(){}

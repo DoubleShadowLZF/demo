@@ -29,7 +29,7 @@ public class JdbcTests {
             emps.add(emp);
         }
         Employee employee = new Employee();
-//        employee.setLastName("Transactional");
+        employee.setLastName("Transactional");
         emps.add(5,employee);
         emps.add(10,employee);
         employeeDbDao.insertBatch(emps);

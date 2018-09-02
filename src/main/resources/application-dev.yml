@@ -81,3 +81,16 @@ spring:
     driver-class-name: org.gjt.mm.mysql.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 #    initialization-mode: embedded
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+  mail:
+    host: smtp.163.com
+    username: li1009083442@163.com
+    password: Double123
+    properties:
+      mail:
+        stmp:
+          ssl:
+            enable: true

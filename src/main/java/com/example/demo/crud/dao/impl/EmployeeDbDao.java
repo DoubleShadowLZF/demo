@@ -22,7 +22,6 @@ public class EmployeeDbDao implements EmployeeDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    @Transactional
     public Long insert(Employee emp) {
         String sql  = "INSERT INTO `demo`.`employee` (" +
                 "  `last_name`,`email`,`gender`, `department`,`birth`,`entry_time`)" +

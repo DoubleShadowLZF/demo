@@ -1,4 +1,4 @@
-package com.example.demo;
+package nocomplie;
 
 import com.example.demo.redis.component.User;
 import com.example.demo.redis.service.BaseUserService;

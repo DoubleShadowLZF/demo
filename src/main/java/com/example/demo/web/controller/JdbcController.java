@@ -55,7 +55,7 @@ public class JdbcController {
     }
 
 
-    @GetMapping("/test")
+    @GetMapping(value="/test")
     public ResponseEntity test(){
 log.debug("jdbc test。。。");
 log.info("jdbc info。。。");
