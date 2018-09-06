@@ -1,6 +1,4 @@
-package com.example.demo.configuration;
-
-import com.example.demo.configuration.food.FoodProperties;
+package com.example.demo.configuration.food;
 
 import java.util.HashMap;
 import java.util.Map;

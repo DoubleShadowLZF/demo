@@ -36,14 +36,13 @@ import java.util.Locale;
  * @since 2018/8/5
  */
 @Configuration
-@EnableCaching
 public class AutoConfiguration implements WebMvcConfigurer {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        /*设置为 true时 http://localhost:8082/SpringBoot/test.test 也将会被映射到 /test 路径上
+        /* 设置为 true时 http://localhost:8082/SpringBoot/test.test 也将会被映射到 /test 路径上
          * 注意: 此处使用了定界符".",即URL:"/test.*"都会被"/test"处理。
          */
         configurer.setUseRegisteredSuffixPatternMatch(true)
@@ -178,21 +177,23 @@ public class AutoConfiguration implements WebMvcConfigurer {
         /* 登陸的攔截請求應該排除登陸本身的請求，不然會一直被攔截，抛出異常；
          * 還有驗證信息的請求，由於攔截器是使用session 中的userName 作爲驗證信息，所以不需要放行“/dashboard.html”請求。
          */
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/","/index.html","/login",
-                //1.*.* 版本默认不对静态资源进行拦截,2.*.* 会对静态资源进行拦截.
-                "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/fonts/*","/**/*.svg",
-                //錯誤頁面測試
-                "/**error**","/**Error**",
-                //servlet请求
-                "/**servlet**","/**Servlet**","/**Jsp**",
-                 //放行所有test頁面請求
-                 "/**text**" ,"/**Test**","/**Test**/**",
-                //放行redis
-                "/testRedis","/testRedis/**",
-                        //,"/testRedis**"  //不支持 * 匹配 “/**”操作
-                "/druid/*","/druid"
-                );
+//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
+//                .excludePathPatterns("/","/index.html","/login",
+//                //1.*.* 版本默认不对静态资源进行拦截,2.*.* 会对静态资源进行拦截.
+//                "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/fonts/*","/**/*.svg",
+//                //錯誤頁面測試
+//                "/**error**","/**Error**",
+//                //servlet请求
+//                "/**servlet**","/**Servlet**","/**Jsp**",
+//                 //放行所有test頁面請求
+//                 "/**test**" ,"/**Test**","/**Test**/**","/fileTest/**",
+//                //放行redis
+//                "/testRedis","/testRedis/**",
+//                        //,"/testRedis**"  //不支持 * 匹配 “/**”操作
+//                "/druid/*","/druid",
+//                //security
+//                "/level*/**"
+//                );
     }
 
     /**

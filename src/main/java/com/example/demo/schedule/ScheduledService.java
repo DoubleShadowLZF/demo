@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class ScheduledService {
+    private long timeCount = 0;
     /**
      * @Description second , hour, day of month, month day of week
      *                  0 * * * * MON-FRI  -- 周一到周五每0秒运行一次
@@ -20,6 +21,6 @@ public class ScheduledService {
      */
     @Scheduled(cron = "0 * * * * SUN-SAT")
     public void hello(){
-      log.info("{}","Hello World");
+      log.info("Started system:{}min",timeCount++);
     }
 }

@@ -39,14 +39,35 @@ public class EmailTests {
     public void emailWithFile() throws MessagingException {
         MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
-        helper.addAttachment("559dec8689bca_1024.jpg",new File("C:\\Users\\Double\\Pictures\\cartoon\\559dec8689bca_1024.jpg"));
-        helper.setSubject("福利");
-        helper.setText("银桑的图片~");
+
+//        helper.addAttachment("银桑.jpg",new File("C:\\Users\\Double\\Pictures\\cartoon\\559dec8689bca_1024.jpg"));
+        helper.addAttachment("1.jpg",new File("C:\\Users\\Double\\Pictures\\cartoon\\shadow.jpg"));
+
+        helper.setSubject("第二封邮件");
+        helper.setText("《银魂》中主人公，银桑的图片~");
         helper.setText("<p style='color:red'>小时候</p>",true);
 
         helper.setFrom(EMAIL_FROM);
         helper.setTo(EMAIL_TO);
         sender.send(mimeMessage);
         System.out.println("发送包含文件的邮件完成。。。");
+    }
+
+    @Test
+    public void testMimeMessage() throws  Exception{
+        // 创建复杂消息
+        MimeMessage mimeMessage = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
+
+        helper.addAttachment("1.jpg",new File("C:\\Users\\Double\\Pictures\\cartoon\\shadow.jpg"));
+        helper.addAttachment("2.jpg",new File("C:\\Users\\Double\\Pictures\\cartoon\\559dec8689bca_1024.jpg"));
+
+        helper.setSubject("第二封邮件");
+        helper.setText("<b style='color:red'>邮件测试....</b>",true);
+
+        helper.setFrom(EMAIL_FROM);
+        helper.setTo(EMAIL_TO);
+
+        sender.send(mimeMessage);
     }
 }

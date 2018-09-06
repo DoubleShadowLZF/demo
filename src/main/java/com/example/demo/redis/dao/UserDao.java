@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 /**
  * @author Double
- * @Description Dao层 缓存操作
+ * @Description Dao层 缓存操作,使用注解操作
  * @Data 2018/8/21 9:40
  */
 @Component
@@ -59,8 +60,18 @@ public class UserDao {
         return 1;
     }
 
-    @Cacheable(key = "#user.id")
-    public Map<Integer, User> queryList() {
+//    @Cacheable(key = "#user.id")
+    @Cacheable(value="user:data:list",key = "#root.methodName")
+    public Map<Integer, User> queryList(){
+        log.debug(">>>queryList...");
+        return users;
+    }
+
+//    @Cacheable(value = "test:queryExpireList", keyGenerator = "simpleKeyGenerator") //value不使用simpleKeyGenerator指定的"UserInfoList"或"UserInfoListAnother"默认为36000s
+//    @Cacheable(value = "UserInfoList", keyGenerator = "simpleKeyGenerator") //value不使用simpleKeyGenerator指定的"UserInfoList"或"UserInfoListAnother"默认为36000s
+    @Cacheable(value = "UserInfoList", keyGenerator = "simpleKeyGenerator") //value不使用simpleKeyGenerator指定的"UserInfoList"或"UserInfoListAnother"默认为36000s
+//    public Map<Integer, User> queryExpireList() {
+    public Object queryExpireList() {
         log.debug(">>>queryList...");
         return users;
     }
@@ -85,4 +96,5 @@ public class UserDao {
     private String getPrefixName(Integer id) {
         return USER_PREFIX + id;
     }
+
 }

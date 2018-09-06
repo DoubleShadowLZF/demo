@@ -1,6 +1,5 @@
-package com.example.demo.configuration;
+package com.example.demo.configuration.food;
 
-import com.example.demo.configuration.food.FoodProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
